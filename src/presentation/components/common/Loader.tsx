@@ -1,3 +1,4 @@
+import React from 'react';
 import PulseLoader from 'react-spinners/PulseLoader'
 import { CSSProperties, JSX } from "react";
 
@@ -16,10 +17,8 @@ const override: CSSProperties = {
 function Loader(props: IPropTypes): JSX.Element {
     if (!props.loaded || props.onlySpinner) {
         return (
-            <div>
-                <div>
-                    <PulseLoader color="#00dfff" cssOverride={override} loading />
-                </div>
+            <div className='flex items-center justify-center w-full h-full'>
+                <PulseLoader color="#00dfff" cssOverride={override} loading />
             </div>
         )
     } else {

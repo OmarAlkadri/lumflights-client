@@ -1,7 +1,7 @@
 "use client";
 import "./globals.css";
+import React from 'react';
 
-import "@/i18n";
 import Providers from "./provider";
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function LoginForm() {
     const [username, setUsername] = useState("");
@@ -15,13 +15,10 @@ export default function LoginForm() {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem("token", data.token); // تخزين التوكن
-                aler"Login successful!");
             } else {
-                aler"Invalid credentials");
             }
         } catch (error) {
             console.error(error);
-            aler"An error occurred");
         }
     };
 

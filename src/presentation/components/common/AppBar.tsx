@@ -1,6 +1,5 @@
+import React from "react";
 import Link from "next/link";
-
-// src/components/common/AppBar.tsx
 export default function AppBar() {
     return (
         <header className="bg-blue-600 dark:bg-blue-800 text-white p-4 shadow-md">

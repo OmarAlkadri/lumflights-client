@@ -5,7 +5,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  //timeout: 10000,
 });
 
 // Add an interceptor to include the token in every request
@@ -33,5 +33,19 @@ apiClient.interceptors.response.use(
     return Promise.reject(error); // Reject the error to handle it in the calling function
   }
 );
+
+
+apiClient.interceptors.response.use(
+  (response) => response, // Pass the response if it's successful
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Handle 401 error
+      console.warn('Unauthorized! Redirecting to home page...');
+      window.location.href = 'http://localhost:3000/'; // Redirect to the desired URL
+    }
+    return Promise.reject(error); // Reject the error to handle it in the calling function
+  }
+);
+
 
 export default apiClient;

@@ -1,5 +1,5 @@
 import { ReservationService } from '@/domain/services/ReservationService';
-import { Reservation } from '@/domain/entities/reservation';
+import { ReservationData as Reservation } from "@/domain/entities/reservation";
 
 export const getReservations = async (): Promise<Reservation[]> => {
     const reservationService = new ReservationService();

@@ -1,12 +1,12 @@
 "use client";
-
+import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import { login as apiLogin, LoginCredentials, UserResponse } from "@/app/api/auth/login";
 import { logout as apiLogout } from "@/app/api/auth/logout";
 import { useRouter } from "next/navigation";
 
 export interface IUser {
-    _id: any;
+    _id: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -42,6 +42,7 @@ export enum ERoles {
     Field = "staff",
     Employee = "employee",
     Supervisor = "supervisor",
+    customer = "customer",
 }
 
 type AuthContextType = {

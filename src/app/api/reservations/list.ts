@@ -1,16 +1,14 @@
-import { Reservation } from "@/domain/entities/reservation";
+import { ReservationData as Reservation } from "@/domain/entities/reservation";
 import apiClient from "@/utils/apiClient";
 
 
 
-// الدالة لجلب الحجوزات
 export const getReservations = async (): Promise<Reservation[]> => {
-    const response = await apiClient.ge'/reservations');
+    const response = await apiClient.get('/reservations');
     return response.data;
 };
 
-// يمكن إضافة دالة لإنشاء الحجز هنا أيضاً
 export const createReservation = async (reservation: Omit<Reservation, 'id'>): Promise<Reservation> => {
-    const response = await apiClient.pos'/reservations', reservation);
+    const response = await apiClient.post('/reservations', reservation);
     return response.data;
 };

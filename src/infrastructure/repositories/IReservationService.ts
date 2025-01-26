@@ -1,4 +1,4 @@
-import { Reservation } from '@/domain/entities/reservation';
+import { ReservationData as Reservation } from "@/domain/entities/reservation";
 import apiClient from '../../utils/apiClient';
 
 export const ReservationRepository = {
@@ -40,7 +40,7 @@ export const ReservationRepository = {
     endDate?: Date | null,
   ): Promise<{ data: Reservation[]; total: number }> {
     try {
-      const response = await apiClient.get(`/reservations`, {
+      const response = await apiClient.get(`/reservations/search`, {
         params: {
           startDate,
           endDate,

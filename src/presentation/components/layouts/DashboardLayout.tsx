@@ -2,13 +2,13 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { ERoles } from "@/contexts/AuthContext";
 import { NavBarAdmin } from "../common/navBarAdmin";
-import { Footer } from "../common/footer";
+import { NavBarStaff } from "../common/navBarStaff";
 
 const DashboardLayout = ({ children, role }: { children: React.ReactNode; role: ERoles }) => {
-    const { user, logout, hasRole } = useAuth();
+    const { user, hasRole } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -22,15 +22,15 @@ const DashboardLayout = ({ children, role }: { children: React.ReactNode; role: 
     }, [user, role, hasRole, router]);
 
     if (!user || !hasRole(role)) {
-        return null; // أو يمكنك عرض مؤشر تحميل
+        return null;
     }
 
     return (
-        <div className="home-layout h-full flex flex-col ">
+        <div className="home-layout h-screen flex flex-col">
             <header className="block w-full mx-auto bg-white bg-opacity-60 sticky top-0 shadow backdrop-blur-lg backdrop-saturate-150 z-[99]">
-                <NavBarAdmin />
+                {role == ERoles.Admin ? <NavBarAdmin /> : <NavBarStaff />}
             </header>
-            <main className='w-full flex flex-1 items-start justify-center relative mt-8'>
+            <main className="flex flex-1 w-full items-start justify-center relative pt-8 bg-white dark:bg-black">
                 {children}
             </main>
         </div>

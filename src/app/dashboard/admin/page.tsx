@@ -1,14 +1,16 @@
 "use client";
-import { JSX, useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "@/presentation/components/layouts/DashboardLayout";
 import Dialog from "@/presentation/components/common/Dialog";
 import { Table } from "@/presentation/components/common/Table";
 import { getAllPaginatedReservations, getReservationsByDateRange } from "@/application/usecases/getReservations";
-import { Reservation } from "@/domain/entities/reservation";
+import { ReservationData as Reservation } from "@/domain/entities/reservation";
 import Loader from "@/presentation/components/common/Loader";
 import { ERoles } from "@/contexts/AuthContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ReservationsPage from "@/presentation/components/common/ReservationsPage";
+import './index.css'
 
 const AdminDashboardPage = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -61,36 +63,29 @@ const AdminDashboardPage = () => {
         fetchReservations();
     }, [currentPage, rowsPerPage]);
 
-    const adminVisibleColumns = useMemo(
-        () => [
-            "flightNumber",
-            "customerNames",
-            "customerEmails",
-            "date",
-            "reservationDate",
-            "seatsBooked",
-            "status",
-        ],
-        []
-    );
+    const adminVisibleColumns = [
+        "flightNumber",
+        "customerNames",
+        "customerEmails",
+        "date",
+        "reservationDate",
+        "seatsBooked",
+        "status",
+        "commentsText",
+    ];
+
 
     const dateColumns = ["date", "createdAt", "updatedAt", "reservationDate"];
 
     const enableAppBarContent = (
-        <div className="flex flex-row w-full items-center px-8 pt-2 justify-between  bg-gray-100 rounded-lg shadow-md">
+        <div className="flex flex-row w-full items-center h-16 px-8 pt-2 justify-between  bg-gray-100 rounded-lg shadow-md">
 
-            <label className="inline-flex items-center cursor-pointer mb-4">
-                <input type="checkbox" value="" className="sr-only peer" />
-                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Toggle me</span>
-            </label>
             <div>
 
-                <div className="flex flex-row w-full items-center gap-x-4">
+                <div className="flex flex-row w-full items-center justify-between ">
 
                     <DatePicker
-                        className={`w-full h-full bg-gray-100 border rounded-md px-3 py-2 text-gray-700 focus:outline-none ${error ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"
-                            }`}
+                        className={`w-full h-full bg-gray-100 border rounded-md px-3 py-2 text-gray-700 focus:outline-none ${error ? "border-red-500 focus:border-red-500" : "border-gray-300 focus:border-blue-500"}`}
                         selectsRange={true}
                         startDate={startDate}
                         endDate={endDate}
@@ -100,7 +95,7 @@ const AdminDashboardPage = () => {
                     />
                     <button
                         onClick={handleSubmit}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                        className="bg-blue-500 w-32 text-white px-3 py-2 ml-6 rounded-md hover:bg-blue-600"
                     >
                         Submit
                     </button>
@@ -111,11 +106,34 @@ const AdminDashboardPage = () => {
 
         </div>
     );
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const [dialogData, setDialogData] = useState<Reservation | undefined>(undefined);
 
+    const openTaskDialog = (item: Reservation): void => {
+        setDialogData(item);
+        setOpenDialog(true);
+    };
+    const closeTaskDialog = (): void => {
+        setOpenDialog(false);
+    };
     return (
         <DashboardLayout role={"admin" as ERoles}>
+            {openDialog && (
+                <Dialog
+                    position={{
+                        content: 'center',
+                        items: 'start',
+                    }}
+                    templete={<ReservationsPage data={dialogData} />}
+                    onClose={closeTaskDialog}
+                    width={'md'}
+                    height={'xl'}
+                />
+            )}
             <Loader loaded={!loading} onlySpinner={false}>
-                <div className="">
+
+                <div className="max-w-[80%]">
+
                     <Table
                         data={reservations}
                         enableFilterBar={true}
@@ -125,12 +143,12 @@ const AdminDashboardPage = () => {
                         enableAppBar={enableAppBarContent}
                         ActionsData={({ item }: { item: Reservation }) => (
                             <div className="px-6 py-4">
-                                <a
-                                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    onClick={() => console.log("Edit", item)}
+                                <button
+                                    className="cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                    onClick={() => { openTaskDialog(item) }}
                                 >
                                     Edit
-                                </a>
+                                </button>
                             </div>
                         )}
                         enableCheckbox={true}

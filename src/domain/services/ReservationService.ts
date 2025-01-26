@@ -1,5 +1,5 @@
 import { ReservationRepository } from '../../infrastructure/repositories/IReservationService';
-import { Reservation } from '../entities/reservation';
+import { ReservationData as Reservation } from "@/domain/entities/reservation";
 
 export class ReservationService {
     async getAllReservations(): Promise<Reservation[]> {

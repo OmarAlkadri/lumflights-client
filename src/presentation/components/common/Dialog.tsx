@@ -28,57 +28,55 @@ const Dialog = ({ position, width, height, templete, onClose, style }: Props) =>
     const dropdownRef = React.useRef<HTMLDivElement>(null);
     const [positionContent, setPositionContent] = React.useState('justify-end');
 
-    React.useEffec() => {
-    const handleClickOutside = (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-            onClose();
+    React.useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                onClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [onClose]);
+
+    const resolveDimensionClass = (dimension: 'width' | 'height', value: height | width) => {
+        if (value in dimensionClassMap) {
+            return dimensionClassMap[value as keyof typeof dimensionClassMap][dimension];
         }
+        if (typeof value === 'number') {
+            return `${dimension === 'width' ? 'w' : 'h'}-[${value}px]`;
+        }
+        return dimension === 'width' ? 'w-1/2' : 'h-screen';
     };
+    React.useEffect(() => {
+        if (position.content) {
+            setPositionContent('justify-' + position.content);
+        }
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "visible";
+        };
+    }, [position.content]); // Add position.content here
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-    };
-}, [onClose]);
+    return (
+        <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
-const resolveDimensionClass = (dimension: 'width' | 'height', value: height | width) => {
-    if (value in dimensionClassMap) {
-        return dimensionClassMap[value as keyof typeof dimensionClassMap][dimension];
-    }
-    if (typeof value === 'number') {
-        return `${dimension === 'width' ? 'w' : 'h'}-[${value}px]`;
-    }
-    return dimension === 'width' ? 'w-1/2' : 'h-screen';
-};
-React.useEffec() => {
-    if (position.content) {
-            setPositionConten'justify-' + position.content);
-    }
-    document.body.style.overflow = "hidden";
-    return () => {
-        document.body.style.overflow = "visible";
-    };
-}, [position.content]); // Add position.content here
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-return (
-    <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
-        <div className="fixed inset-0 z-10 w-screen mt-16">
-            <div className={`flex h-screen ${positionContent} items-${position.items}  text-center`}
-            >
-
-                <div ref={dropdownRef}
-                    style={style}
-                    className={`flex p-4 ${resolveDimensionClass('height', height)} overflow-y-auto ${resolveDimensionClass('width', width)} text-center justify-center justify-items-center 
-                    transform rounded-lg bg-white`}>
-                    {templete}
+            <div className="fixed inset-0 z-10 w-screen mt-16">
+                <div className={`flex h-screen ${positionContent} items-${position.items}  text-center`}
+                >
+                    <div ref={dropdownRef}
+                        style={style}
+                        className={`flex p-4 ${resolveDimensionClass('height', height)} overflow-y-auto ${resolveDimensionClass('width', width)} text-start mt-8 transform rounded-lg bg-white`}>
+                        {templete}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-);
+    );
 };
 
 export default Dialog;

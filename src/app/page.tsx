@@ -1,5 +1,5 @@
 "use client";
-import { JSX } from 'react';
+import React, { JSX } from 'react';
 import HomeLayout from '@/presentation/components/layouts/HomeLayout';
 import { AboutUs } from '@/presentation/components/common/aboutUs';
 

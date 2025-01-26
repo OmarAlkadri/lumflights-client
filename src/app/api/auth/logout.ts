@@ -10,9 +10,8 @@ export const logout = async () => {
         } else {
             throw new Error("Failed to logout.");
         }
-    } catch (error: any) {
-        console.error("Login error:", error.message || error);
-        throw new Error(error.response?.data?.message || "An unexpected error occurred.");
+    } catch {
+        throw new Error("An unexpected error occurred.");
     }
 };
 

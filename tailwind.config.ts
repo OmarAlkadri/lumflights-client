@@ -9,6 +9,10 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'normal-bg': '#ffffff',
+        'dark-bg': '#1a202c',
+      },
     },
   },
   plugins: [
