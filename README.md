@@ -1,139 +1,122 @@
-# Lumflights Client
+# Real Estate Listings Frontend
 
-Welcome to the **Lumflights Client** project! This repository contains the source code for the front-end application of Lumflights, designed to handle user authentication, reservations, staff management, and more. The application is built using **Next.js**, **TypeScript**, and **TailwindCSS**, providing a modern, responsive, and performant user experience.
+## Project Overview
 
-You can view the deployed project live here: [Lumflights Client](https://lumflights-client-tau.vercel.app/).
+This is the frontend application for the **Real Estate Listings** project, built with **Next.js**. It interacts with a **NestJS** backend using **GraphQL** and **MongoDB**.
 
----
+## Features
+
+- **User Authentication** (Register/Login)
+- **Property Listings** (Create, View, Update, Delete)
+- **Search & Filtering** (Location, Price, Number of Rooms, etc.)
+- **Favorites System** (Save and manage favorite listings)
+- **Responsive UI** using Tailwind CSS
+
+## Technologies Used
+
+- **Next.js** (React Framework for SSR & SSG)
+- **GraphQL** (Apollo Client for API communication)
+- **Tailwind CSS** (For styling)
+- **Redux Toolkit** (For state management)
+- **JWT Authentication** (Token-based authentication)
+- **react-hook-form** (For form validation)
+
+## Installation & Setup
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js (>= 16.x)
+- pnpm
+- A running backend server
+
+### Clone the Repository
+
+```sh
+git clone https://github.com/yourusername/real-estate-frontend.git
+cd real-estate-frontend
+```
+
+### Install Dependencies
+
+```sh
+pnpm install  # or npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory and configure the following:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000/graphql
+NEXT_PUBLIC_JWT_SECRET=your_jwt_secret
+```
+
+### Running the Development Server
+
+```sh
+pnpm dev  # or npm run dev
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).
 
 ## Project Structure
 
-The project follows a clean architecture pattern, with a modular and organized folder structure:
-
-```
+```bash
 src/
 ├── app
-│   ├── api                # API routes for authentication, reservations, and user roles
-│   ├── auth               # Pages for user authentication (login/register)
-│   ├── dashboard          # Admin and staff dashboard pages
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout component
-│   ├── metadata.ts        # Metadata configuration
-│   └── provider.tsx       # Context and provider setup
+│   ├── ToastProvider.tsx
+│   ├── api/ (Authentication & User Management)
+│   ├── auth/ (Login & Registration Pages)
+│   ├── dashboard/ (Admin & User Dashboard)
+│   ├── globals.css, layout.tsx, provider.tsx (Global Styling & Providers)
+│   ├── metadata.ts (SEO Metadata)
 ├── application
-│   ├── interfaces         # Application-level interfaces
-│   └── usecases           # Business logic use cases
-├── assets                 # Static assets like logos
-├── contexts               # React context for authentication
-├── domain
-│   ├── entities           # Core business entities
-│   ├── services           # Domain-specific services
-│   └── value-objects      # Value objects for domain modeling
+│   ├── graphql/queries.ts (GraphQL API Queries)
+├── assets
+│   ├── onologo.png (Static Assets)
+├── contexts
+│   ├── AuthContext.tsx (Authentication Context)
 ├── infrastructure
-│   ├── ai                 # AI-related infrastructure
-│   ├── firestore          # Firestore utilities
-│   └── repositories       # Repositories for data handling
+│   ├── apolloClient.ts (GraphQL Client Setup)
 ├── presentation
-│   ├── components         # Reusable UI components
-│   ├── layouts            # Layout components for different pages
-│   └── modals             # Modals for user interaction
-├── public                 # Publicly accessible files like images
-├── styles                 # Global and TailwindCSS stylesheets
-├── types                  # TypeScript types
-└── utils                  # Utility functions
+│   ├── components/ (Reusable UI Components)
+│   ├── layouts/ (Page Layouts for Admin, Employee, etc.)
+├── styles
+│   ├── globals.css, tailwind.css (Global Styles)
+└── utils
+    ├── index.ts, types.ts (Helper Functions & Type Definitions)
 ```
 
----
+## API Integration
 
-## Getting Started
+The frontend interacts with the NestJS backend using Apollo Client. Queries and mutations are defined in the `graphql/` folder.
 
-### Prerequisites
-- Node.js >= 18
-- pnpm (preferred package manager)
+### Example Query (Fetching Listings)
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/lumflights-client.git
-   cd lumflights-client
-   ```
-
-2. Install dependencies using **pnpm**:
-   ```bash
-   pnpm install
-   ```
-
-### Development
-To start the development server, run:
-```bash
-pnpm dev
+```graphql
+query GetListings {
+  listings {
+    id
+    title
+    price
+    location
+  }
+}
 ```
-The application will be available at [http://localhost:3000](http://localhost:3000).
-
-### Build
-To build the application for production, use:
-```bash
-pnpm build
-```
-The output will be located in the `.next` directory.
-
-### Start
-After building the application, you can start it with:
-```bash
-pnpm start
-```
-The application will run on the specified production port (default: 3000).
-
-### Linting
-To lint the codebase, use:
-```bash
-pnpm lint
-```
-
----
-
-## Key Features
-- **Authentication:** Login and registration flows.
-- **Dashboard:** Admin and staff dashboards with role-based access.
-- **Reservations:** List, view, and manage reservations.
-- **Responsive UI:** Built with TailwindCSS for modern and adaptable designs.
-
----
-
-## Technologies Used
-- **React (19.0.0)**
-- **Next.js (15.1.6)**
-- **TypeScript**
-- **TailwindCSS**
-- **Firebase**
-- **React Hook Form**
-- **Day.js**
-
----
 
 ## Deployment
-The project is deployed using **Vercel**. You can access it at:
-[https://lumflights-client-tau.vercel.app/](https://lumflights-client-tau.vercel.app/)
 
----
+For production deployment, use:
 
-## Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch for your feature/bugfix.
-3. Commit your changes and push them.
-4. Open a pull request.
+```sh
+pnpm build  # or npm run build
+pnpm start  # or npm run start
+```
 
----
+You can deploy this app on **Vercel**, **Netlify**, or any hosting provider supporting Next.js.
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
 
----
-
-## Acknowledgments
-- Thanks to the developers and contributors who made this project possible.
-- Special thanks to the creators of Next.js, React, and TailwindCSS for their incredible tools.
-
-Feel free to explore, contribute, and give feedback!
-
+This project is licensed under the MIT License.

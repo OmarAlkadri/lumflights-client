@@ -2,7 +2,7 @@
 import React, { useState, useMemo, JSX } from "react";
 import { FilterBar } from "./FilterBar";
 
-type TableProps<T extends { id: string | number }> = {
+type TableProps<T extends { _id: string | number }> = {
     data: T[];
     visibleColumns?: string[];
     dateColumns: string[];
@@ -20,7 +20,7 @@ type TableProps<T extends { id: string | number }> = {
     };
 };
 
-export const Table = <T extends { id: string | number }>({
+export const Table = <T extends { _id: string | number }>({
     data,
     visibleColumns = [],
     dateColumns,
@@ -71,7 +71,7 @@ export const Table = <T extends { id: string | number }>({
                 </thead>
                 <tbody>
                     {currentRows.map((item) => (
-                        <tr key={item.id}>
+                        <tr key={item._id}>
                             {enableCheckbox && <td className="w-4 p-4"><input type="checkbox" /></td>}
                             {visibleColumns.map((col) => (
                                 <td key={col} className="px-6 py-4">

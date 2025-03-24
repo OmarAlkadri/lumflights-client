@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 
-export const NavBarAdmin = () => {
+export const NavBarEmployee = () => {
     const { logout } = useAuth();
     const [dark, setDark] = useState<boolean>(false);
     const [isAdminMenuOpen, setIsAdminMenuOpen] = useState<boolean>(false);
@@ -84,6 +84,16 @@ export const NavBarAdmin = () => {
                                         Home
                                     </Link>
                                 </li>
+                                <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                                    <Link href="/dashboard/listings" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">
+                                        listings
+                                    </Link>
+                                </li>
+                                <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                                    <Link href="/dashboard/ListingForm" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">
+                                        newlistings
+                                    </Link>
+                                </li>
                                 <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600 relative" ref={adminMenuRef}>
                                     <button
                                         aria-expanded={isAdminMenuOpen}
@@ -114,6 +124,12 @@ export const NavBarAdmin = () => {
                                                 </li>
                                                 <li>
                                                     <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Home</Link>
+                                                </li>
+                                                <li>
+                                                    <Link href="/dashboard/listings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">listings</Link>
+                                                </li>
+                                                <li>
+                                                    <Link href="/dashboard/ListingForm" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">newlistings</Link>
                                                 </li>
                                                 <div className="py-1">
                                                     <Link onClick={() => { logout() }} href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
@@ -154,6 +170,16 @@ export const NavBarAdmin = () => {
                                     Home
                                 </Link>
                             </li>
+                            <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                                <Link href="listings" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">
+                                    listings
+                                </Link>
+                            </li>
+                            <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
+                                <Link href="/dashboard/ListingForm" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">
+                                    newlistings
+                                </Link>
+                            </li>
                             <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600 relative" ref={adminMenuRef}>
                                 <button
                                     aria-expanded={isAdminMenuOpen}
@@ -184,6 +210,12 @@ export const NavBarAdmin = () => {
                                             </li>
                                             <li>
                                                 <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Home</Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/dashboard/listings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">listings</Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/dashboard/ListingForm" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">newlistings</Link>
                                             </li>
                                             <div className="py-1">
                                                 <Link onClick={() => { logout() }} href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>

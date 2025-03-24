@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import lumin_ai_app_logo from '../../../assets/lumin_ai_app_logo.jpg';
-import lumin_ai_app_logo_svg from '../../../assets/light-logo.svg';
+import onologo from '../../../assets/onologo.png';
 import Image from "next/image";
 import Link from "next/link";
-
+/**EmlakJetX */
 export const NavBar = () => {
     const [dark, setDark] = useState<boolean>(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -48,8 +47,7 @@ export const NavBar = () => {
             <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <Link href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-                        <Image src={lumin_ai_app_logo} className="h-16 w-16 me-3" alt='footer.logoAlt' />
-                        <Image src={lumin_ai_app_logo_svg} className="h-16 w-16 me-3 self-center text-2xl font-semibold whitespace-nowrap dark:text-white" alt='footer.logoAlt' />
+                        <Image src={onologo} className="h-10 w-20 me-3" alt='footer.logoAlt' />
                     </Link>
 
                     <div className="relative ml-3" ref={dropdownRef}>

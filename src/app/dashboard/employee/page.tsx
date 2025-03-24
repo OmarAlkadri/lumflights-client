@@ -15,10 +15,11 @@ import Swal from "sweetalert2";
 import { Bounce, toast } from "react-toastify";
 import Dialog from "@/presentation/components/common/Dialog";
 import ReviewsPage from "@/presentation/components/common/ReviewsPage";
-import UnifiedInputComponent from "@/presentation/components/common/unifiedInputComponent";
+import { useAuth } from "@/contexts/AuthContext";
 
-const AdminDashboardPage = () => {
+const EmployeeDashboardPage = () => {
     const router = useRouter();
+    const { user } = useAuth();
 
     const [filters, setFilters] = useState({
         city: "",
@@ -58,6 +59,7 @@ const AdminDashboardPage = () => {
         const variables: Record<string, any> = {
             page: pagination.currentPage,
             limit: pagination.rowsPerPage,
+            userId: user?._id
         };
 
         if (city) variables.city = city;
@@ -121,9 +123,6 @@ const AdminDashboardPage = () => {
             </button>
             <button onClick={() => router.push(`/dashboard/ListingForm?id=${item._id}`)}>
                 <Icon icon="material-symbols-light:edit-note-outline" width="24" height="24" />
-            </button>
-            <button onClick={() => handleDeleteItem(item)}>
-                <Icon icon="mdi-light:delete" width="24" height="24" />
             </button>
         </div>
     ), []);
@@ -210,4 +209,4 @@ const AdminDashboardPage = () => {
     );
 };
 
-export default AdminDashboardPage;
+export default EmployeeDashboardPage;

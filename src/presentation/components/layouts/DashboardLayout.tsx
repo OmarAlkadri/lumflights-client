@@ -1,40 +1,55 @@
+/* eslint-disable react/react-in-jsx-scope */
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { ERoles } from "@/contexts/AuthContext";
-import { NavBarAdmin } from "../common/navBarAdmin";
-import { NavBarStaff } from "../common/navBarStaff";
+import { ERoles, IUser } from "@/utils/types";
+import { usePathname } from "next/navigation";
+import HomeLayout from "./HomeLayout";
+import AdminLayout from "./AdminLayout";
+import EmployeeLayout from "./EmployeeLayout";
 
-const DashboardLayout = ({ children, role }: { children: React.ReactNode; role: ERoles }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+    const pathname = usePathname();
     const { user, hasRole } = useAuth();
-    const router = useRouter();
+    const [parsedUser, setParsedUser] = useState<IUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const authPages = useMemo(() => ["/auth/login", "/auth/register"], []);
 
     useEffect(() => {
-        if (!user) {
-            router.push("/auth/login");
-        } else if (!hasRole(role)) {
-            const fallbackRoute =
-                user.ERoles?.includes(ERoles.Admin) ? "/dashboard/admin" : "/dashboard/staff";
-            router.push(fallbackRoute);
+        if (typeof window !== "undefined") {
+            const storedUser = localStorage.getItem("user");
+            setParsedUser(storedUser ? JSON.parse(storedUser) : user);
+            setIsLoading(false);
         }
-    }, [user, role, hasRole, router]);
+    }, [user]);
 
-    if (!user || !hasRole(role)) {
-        return null;
-    }
+    const layout = useMemo(() => {
+        if (authPages.includes(pathname)) {
+            return <>{children}</>;
+        }
 
-    return (
-        <div className="home-layout h-screen flex flex-col">
-            <header className="block w-full mx-auto bg-white bg-opacity-60 sticky top-0 shadow backdrop-blur-lg backdrop-saturate-150 z-[99]">
-                {role == ERoles.Admin ? <NavBarAdmin /> : <NavBarStaff />}
-            </header>
-            <main className="flex flex-1 w-full items-start justify-center relative pt-8 bg-white dark:bg-black">
-                {children}
-            </main>
-        </div>
-    );
+        if (isLoading) {
+            return <div className="flex items-center justify-center h-screen">Loading...</div>;
+        }
+
+        if (!parsedUser) {
+            return <HomeLayout>{children}</HomeLayout>;
+        }
+
+        if (hasRole(ERoles.Admin)) {
+            return <AdminLayout role={ERoles.Admin}>{children}</AdminLayout>;
+        }
+
+        if (hasRole(ERoles.Employee)) {
+            return <EmployeeLayout role={ERoles.Employee}>{children}</EmployeeLayout>;
+        }
+
+        return <HomeLayout>{children}</HomeLayout>; // fallback
+    }, [pathname, isLoading, parsedUser, hasRole, children, authPages]);
+
+    return <main>{layout}</main>;
 };
 
 export default DashboardLayout;

@@ -14,7 +14,7 @@ export default function LoginForm() {
 
             if (res.ok) {
                 const data = await res.json();
-                localStorage.setItem("token", data.token); // تخزين التوكن
+                localStorage.setItem("token", data.token);
             } else {
             }
         } catch (error) {

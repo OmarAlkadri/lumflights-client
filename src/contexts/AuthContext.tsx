@@ -1,49 +1,11 @@
 "use client";
-import React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { login as apiLogin, LoginCredentials, UserResponse } from "@/app/api/auth/login";
 import { logout as apiLogout } from "@/app/api/auth/logout";
 import { useRouter } from "next/navigation";
-
-export interface IUser {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    registrationNumber?: string;
-
-    dateOfBirth?: Date;
-
-    phoneNumber?: string;
-    EMaritalStatus?: EMaritalStatus;
-
-    lastLogin?: Date;
-    lastNotificationSeen?: Date;
-
-    ERoles?: ERoles[];
-    EUserType: ERoles;
+import { ERoles, IUser } from "@/utils/types";
 
 
-    createdAt: Date;
-    updatedAt: Date;
-    access_token?: string
-}
-
-export enum EMaritalStatus {
-    Married = 1,
-    Single,
-}
-
-
-export enum ERoles {
-    Admin = "admin",
-    Manager = "manager",
-    Field = "staff",
-    Employee = "employee",
-    Supervisor = "supervisor",
-    customer = "customer",
-}
 
 type AuthContextType = {
     user: IUser | null;
@@ -71,11 +33,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const login = async (credentials: LoginCredentials) => {
         try {
             const userData: UserResponse = await apiLogin(credentials);
-
-            const transformedUser: IUser = {
+            const transformedUser = {
                 _id: userData.user._id,
-                firstName: userData.user.firstName,
-                lastName: userData.user.lastName,
+                name: userData.user.name,
                 email: userData.user.email,
                 ERoles: userData.user.ERoles || [],
                 EUserType: userData.user.EUserType,
@@ -83,20 +43,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 access_token: userData.access_token,
                 password: "",
                 createdAt: userData.user.createdAt,
-                updatedAt: userData.user.updatedAt
+                updatedAt: userData.user.updatedAt,
             };
-
             setUser(transformedUser);
             localStorage.setItem("user", JSON.stringify(transformedUser));
             localStorage.setItem("authToken", userData.access_token);
         } catch (error) {
-            if (error instanceof Error) {
-                console.error("Login failed:", error.message);
-                throw error;
-            } else {
-                console.error("Unexpected error:", error);
-                throw new Error("An unexpected error occurred.");
-            }
+            console.error("Login failed:", error);
+            throw error;
         }
     };
 
@@ -108,20 +62,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             localStorage.removeItem("authToken");
             router.push("http://localhost:3000");
         } catch (error) {
-            if (error instanceof Error) {
-                console.error("Login failed:", error.message);
-                throw error;
-            } else {
-                console.error("Unexpected error:", error);
-                throw new Error("An unexpected error occurred.");
-            }
+            console.error("Logout failed:", error);
+            throw error;
         }
     };
 
-    const hasRole = (role: ERoles): boolean => {
-        return user?.ERoles?.includes(role) ?? false;
-    };
-
+    const hasRole = (role: ERoles): boolean => user?.ERoles?.includes(role) ?? false;
 
     return (
         <AuthContext.Provider value={{ user, login, logout, isLoading, hasRole }}>

@@ -1,17 +1,28 @@
-import apiClient from "@/utils/apiClient";
+import { gql } from '@apollo/client';
+import apolloClient from '@/infrastructure/apolloClient';
+
+const LOGOUT_USER = gql`
+  mutation Logout {
+    logout
+  }
+`;
 
 export const logout = async () => {
-    try {
-        const response = await apiClient.get('/auth/logout');
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: LOGOUT_USER,
+    });
 
-        if (response.status === 200) {
-            localStorage.removeItem("user");
-            localStorage.removeItem("authToken");
-        } else {
-            throw new Error("Failed to logout.");
-        }
-    } catch {
-        throw new Error("An unexpected error occurred.");
+    if (!data || !data.logout) {
+      throw new Error("Failed to logout.");
     }
-};
 
+    localStorage.removeItem("user");
+    localStorage.removeItem("authToken");
+
+    return true;
+  } catch (error) {
+    console.error("Logout error:", error);
+    throw new Error(error instanceof Error ? error.message : "An unexpected error occurred.");
+  }
+};

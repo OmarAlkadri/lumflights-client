@@ -16,35 +16,31 @@ export const Pagination: React.FC<PaginationProps> = ({
     const totalPages = Math.ceil(totalItems / rowsPerPage);
 
     const generatePageNumbers = () => {
-        const pages = [];
+        const pages: (number | string)[] = [];
 
-        if (currentPage > 1) {
-            pages.push(currentPage - 1);
+        if (totalPages > 0) {
+            pages.push(1);
         }
 
-        pages.push(currentPage);
-
-        if (currentPage < totalPages) {
-            pages.push(currentPage + 1);
-        }
-
-        if (currentPage > 2) {
-            pages.unshift("...");
-        }
-        if (currentPage < totalPages - 1) {
+        if (currentPage > 3) {
             pages.push("...");
         }
 
-        if (!pages.includes(1)) {
-            pages.unshift(1);
+        for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+            pages.push(i);
         }
 
-        if (!pages.includes(totalPages)) {
+        if (currentPage < totalPages - 2) {
+            pages.push("...");
+        }
+
+        if (totalPages > 1 && !pages.includes(totalPages)) {
             pages.push(totalPages);
         }
 
         return pages;
     };
+
 
     return (
         <div className="flex gap-2">
@@ -67,7 +63,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                 </button>
             ))}
             <button
-                disabled={currentPage === totalPages}
+                disabled={currentPage >= totalPages}
                 onClick={() => onPageChange(currentPage + 1)}
                 className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
             >

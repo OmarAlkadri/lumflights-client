@@ -1,23 +1,24 @@
 import React from 'react';
 import Image from 'next/image';
-import luminLogo from '../../../assets/light-logo.svg';
+import onologo from '../../../assets/onologo.png';
 
 export const Footer = () => {
     const profile = {
         name: '',
-        copyright: 'Lumin AI 2025 © All right reserved',
-        slogan: 'Spark your work with Lumin ✨',
+        copyright: 'EmlakJetX AI 2025 © All right reserved',
+        slogan: 'Spark your work with EmlakJetX ✨',
     };
 
     const sections = {
         about: [
-            { href: "https://www.lumin-ai.app/", label: 'Our Story' },
-            { href: "https://www.lumin-ai.app/#features", label: 'Contact Us' }
+            { href: "https://onoyazilim.com.tr/", label: 'Our Story' },
+            { href: "https://ono.software/", label: 'Contact Us' }
         ],
         follow: [
             { href: "https://github.com/themesberg/flowbite", label: 'Follow on GitHub' },
-            { href: "https://www.lumin-ai.app/#features", label: 'Follow on website' },
-            { href: "https://www.lumin-ai.app/", label: 'Follow on LinkedIn' },
+            { href: "https://x.com/i/flow/login?redirect_after_login=%2FOnoStudioGames%2F", label: 'Follow on twitter' },
+            { href: "https://www.linkedin.com/company/ono-software/posts/?feedView=all", label: 'Follow on LinkedIn' },
+            { href: "https://www.instagram.com/onostudiogames/", label: 'Follow on instagram' },
         ]
     };
 
@@ -26,7 +27,7 @@ export const Footer = () => {
             <div className="md:flex md:justify-between">
                 <div className="mb-6 md:mb-0">
                     <a href="#" className="flex items-center">
-                        <Image src={luminLogo} className="h-32 w-32 me-3" alt="Lumin logo" />
+                        <Image src={onologo} className="h-10 w-20 me-3 self-center text-2xl font-semibold whitespace-nowrap dark:text-white" alt='footer.logoAlt' />
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{profile.name}</span>
                     </a>
                 </div>

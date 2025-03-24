@@ -1,7 +1,7 @@
 "use client";
 import React, { JSX } from 'react';
-import HomeLayout from '@/presentation/components/layouts/HomeLayout';
 import { AboutUs } from '@/presentation/components/common/aboutUs';
+import { Footer } from '@/presentation/components/common/footer';
 
 
 
@@ -10,8 +10,12 @@ export default function HomePage(): JSX.Element {
 
 
   return (
-    <HomeLayout>
+    <div>
+
       <AboutUs />
-    </HomeLayout>
+      <footer className="bg-gray-200 dark:bg-gray-900">
+        <Footer />
+      </footer>
+    </div>
   );
 }
